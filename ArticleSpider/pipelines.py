@@ -52,10 +52,10 @@ class JsonExporterPipeLine(object):
 class ArticleImagePipeLine(ImagesPipeline):
 
     def item_completed(self, results, item, info):
-        if 'front_image_path' in item:
-            for ok, value in results:
-                image_file_path = value['path']
-                item['front_image_path'] = image_file_path
+        # if 'front_image_path' in item:
+        for ok, value in results:
+            image_file_path = value['path']
+            item['front_image_path'] = image_file_path
 
         return item
 
@@ -114,8 +114,11 @@ class MysqlTwistedPipeLine(object):
     def do_insert(self, cursor, item):
 
         insert_sql = """
-                        insert into article(title, url, create_date, fav_nums, url_object_id)
-                        VALUES (%s, %s, %s, %s, %s)
+                        insert into article(title, url, create_date, fav_nums, url_object_id, front_image_url, 
+                        front_image_path, praise_nums, comment_nums, tags, content)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
         cursor.execute(insert_sql,
-                            (item['title'], item['url'], item['create_date'], item['fav_nums'], item['url_object_id']))
+                            (item['title'], item['url'], item['create_date'], item['fav_nums'], item['url_object_id'],
+                             item['front_image_url'], item['front_image_path'], item['praise_nums'], item['comment_nums'],
+                             item['tags'], item['content']))

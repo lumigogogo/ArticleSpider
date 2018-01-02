@@ -69,7 +69,9 @@ class JobBoleArticleItem(scrapy.Item):
     front_image_url = scrapy.Field(
         output_processor=MapCompose(return_value)
     )
-    front_image_path = scrapy.Field()
+    front_image_path = scrapy.Field(
+        output_processor=MapCompose(return_value)
+    )
     praise_nums = scrapy.Field(
         input_processor=MapCompose(get_nums)
     )

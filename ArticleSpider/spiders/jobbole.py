@@ -39,7 +39,7 @@ class JobboleSpider(scrapy.Spider):
             yield Request(url=next_url, callback=self.parse)
 
     def detail_parse(self, response):
-        article_item = JobBoleArticleItem()
+        # article_item = JobBoleArticleItem()
 
         # title = response.xpath('//div[@class="entry-header"]/h1/text()').extract()[0]
         # create_date = response.xpath('//p[@class="entry-meta-hide-on-mobile"]/text()').extract()[0].strip().replace(' ·', '').strip()

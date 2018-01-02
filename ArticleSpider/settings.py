@@ -68,9 +68,9 @@ ROBOTSTXT_OBEY = False  # True：scrapy默认遵守robotstxt协议（过滤url�
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # 'ArticleSpider.pipelines.ArticlespiderPipeline': 300,
-   # # 'scrapy.pipelines.images.ImagesPipeline': 1,
-   # 'ArticleSpider.pipelines.ArticleImagePipeLine': 1,
-   'ArticleSpider.pipelines.MysqlTwistedPipeLine': 2,
+   # 'scrapy.pipelines.images.ImagesPipeline': 1,
+   'ArticleSpider.pipelines.ArticleImagePipeLine': 2,
+   'ArticleSpider.pipelines.MysqlTwistedPipeLine': 3,
 }
 IMAGES_URLS_FIELD = 'front_image_url'   # 从item中获取下载图片的key
 project_dir = os.path.abspath(os.path.dirname(__file__))
