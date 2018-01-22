@@ -37,7 +37,7 @@ class ZhihuSpider(scrapy.Spider):
 
     def start_requests(self):
         from selenium import webdriver
-        browser = webdriver.Firefox(executable_path='E:/geckodriver-v0.19.1-win64/geckodriver.exe')
+        browser = webdriver.Firefox(executable_path='/home/lumi/Downloads/geckodriver')
 
         browser.get('https:/www.zhihu.com/signin')
         browser.find_element_by_css_selector('.SignFlow-accountInput.Input-wrapper input').send_keys('18817314957')
@@ -51,7 +51,7 @@ class ZhihuSpider(scrapy.Spider):
         import pickle
         for cookie in Cookies:
             # 写入文件
-            with open('C:/Users/ll/PycharmProjects/ArticleSpider/cookies/zhihu' + cookie['name'] + '.zhihu', 'wb') as f:
+            with open('/home/lumi/GitHub/ArticleSpider/cookies/zhihu' + cookie['name'] + '.zhihu', 'wb') as f:
                 pickle.dump(cookie, f)
                 cookie_dict[cookie['name']] = cookie['value']
         browser.close()
