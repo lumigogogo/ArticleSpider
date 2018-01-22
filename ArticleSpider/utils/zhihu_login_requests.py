@@ -58,6 +58,7 @@ def zhihu_login(account, password):
         print '手机号登入'
         post_url = 'https://www.zhihu.com/api/v3/oauth/sign_in'
         post_data = {
+            '_xsrf': get_xsrf(),
             'phone_num': account,
             'password': password
         }
