@@ -19,7 +19,7 @@ class ZhihuSpider(scrapy.Spider):
         pass
 
     def start_requests(self):
-        return [scrapy.Request('https://www.zhihu.com/signup?next=%2F', callback=self.login)]
+        return [scrapy.Request('https://www.zhihu.com/signup?next=%2F', callback=self.login, headers=self.heards)]
 
     def login(self, response):
 

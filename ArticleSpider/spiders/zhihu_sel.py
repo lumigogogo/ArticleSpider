@@ -2,14 +2,18 @@
 
 import scrapy
 
+import urlparse
+
+import os
+
 
 class ZhihuSpider(scrapy.Spider):
     name = 'zhihu_sel'
     allowed_domains = ['www.zhihu.com']
-    start_urls = ['https:/www.zhihu.com']
+    start_urls = ['https://www.zhihu.com']
 
     # question的第一页answer的请求url
-    start_answer_url = 'https://www.zhihu.com/api/v4/questions/{0}/answers?sort_by=default&include=data%5B%2A%5D.is_normal%2Cis_sticky%2Ccollapsed_by%2Csuggest_edit%2Ccomment_count%2Ccollapsed_counts%2Creviewing_comments_count%2Ccan_comment%2Ccontent%2Ceditable_content%2Cvoteup_count%2Creshipment_settings%2Ccomment_permission%2Cmark_infos%2Ccreated_time%2Cupdated_time%2Crelationship.is_author%2Cvoting%2Cis_thanked%2Cis_nothelp%2Cupvoted_followees%3Bdata%5B%2A%5D.author.is_blocking%2Cis_blocked%2Cis_followed%2Cvoteup_count%2Cmessage_thread_token%2Cbadge%5B%3F%28type%3Dbest_answerer%29%5D.topics&limit={1}&offset={2}'
+    start_answer_url = ''
 
     headers = {
         "HOST": "www.zhihu.com",
@@ -26,7 +30,10 @@ class ZhihuSpider(scrapy.Spider):
         提取出html页面中的所有url 并跟踪这些url进行一步爬取
         如果提取的url中格式为 /question/xxx 就下载之后直接进入解析函数
         """
-        pass
+        all_urls = response.css('a::attr(href)').extract()
+        all_urls = [urlparse.urljoin(response.url, url) for url in all_urls]
+        for url in all_urls:
+            pass
 
     def parse_question(self, response):
         # 处理question页面， 从页面中提取出具体的question item
@@ -36,6 +43,19 @@ class ZhihuSpider(scrapy.Spider):
         pass
 
     def start_requests(self):
+
+        _path = '/home/lumi/GitHub/ArticleSpider/cookies'
+        files = os.listdir('/home/lumi/GitHub/ArticleSpider/cookies')
+        import pickle
+        if files:
+            cookie_dict = {}
+            # cookie 已经存在
+            for _f in files:
+                _name = _f.split('|')[1].split('.')[0]
+                _value = pickle.load(open(_path + '/' + _f))
+                cookie_dict[_name] = _value
+            return [scrapy.Request(url=self.start_urls[0], dont_filter=True, cookies=cookie_dict, headers=self.headers)]
+
         from selenium import webdriver
         browser = webdriver.Firefox(executable_path='/home/lumi/Downloads/geckodriver')
 
@@ -46,13 +66,12 @@ class ZhihuSpider(scrapy.Spider):
         import time
         time.sleep(10)
         Cookies = browser.get_cookies()
-        print(Cookies)
+        print Cookies
         cookie_dict = {}
-        import pickle
         for cookie in Cookies:
             # 写入文件
-            with open('/home/lumi/GitHub/ArticleSpider/cookies/zhihu' + cookie['name'] + '.zhihu', 'wb') as f:
-                pickle.dump(cookie, f)
+            with open(_path + '/zhihu|' + cookie['name'] + '.zhihu', 'wb') as f:
+                pickle.dump(cookie['value'], f)
                 cookie_dict[cookie['name']] = cookie['value']
         browser.close()
-        return [scrapy.Request(url=self.start_urls[0], dont_filter=True, cookies=cookie_dict)]
+        return [scrapy.Request(url=self.start_urls[0], dont_filter=True, cookies=cookie_dict, headers=self.headers)]
