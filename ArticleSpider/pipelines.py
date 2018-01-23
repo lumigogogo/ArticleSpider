@@ -122,3 +122,9 @@ class MysqlTwistedPipeLine(object):
                             (item['title'], item['url'], item['create_date'], item['fav_nums'], item['url_object_id'],
                              item['front_image_url'], item['front_image_path'], item['praise_nums'], item['comment_nums'],
                              item['tags'], item['content']))
+
+
+class ZhihuQuestionPipeLine(object):
+
+    def process_item(self, item, spider):
+        pass
