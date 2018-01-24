@@ -112,16 +112,11 @@ class MysqlTwistedPipeLine(object):
         print(failure)
 
     def do_insert(self, cursor, item):
+        # 执行具体的插入
+        # 根据不同的item 构建不同的sql语句并插入mysql中
 
-        insert_sql = """
-                        insert into article(title, url, create_date, fav_nums, url_object_id, front_image_url, 
-                        front_image_path, praise_nums, comment_nums, tags, content)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                """
-        cursor.execute(insert_sql,
-                            (item['title'], item['url'], item['create_date'], item['fav_nums'], item['url_object_id'],
-                             item['front_image_url'], item['front_image_path'], item['praise_nums'], item['comment_nums'],
-                             item['tags'], item['content']))
+        insert_sql, params = item.get_insert_sql()
+        cursor.execute(insert_sql, params)
 
 
 class ZhihuQuestionPipeLine(object):

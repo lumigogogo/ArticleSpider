@@ -87,6 +87,17 @@ class JobBoleArticleItem(scrapy.Item):
     )
     content = scrapy.Field()
 
+    def get_insert_sql(self):
+        insert_sql = """
+                                insert into article(title, url, create_date, fav_nums, url_object_id, front_image_url, 
+                                front_image_path, praise_nums, comment_nums, tags, content)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        """
+        params = (self['title'], self['url'], self['create_date'], self['fav_nums'], self['url_object_id'],
+                  self['front_image_url'], self['front_image_path'], self['praise_nums'], self['comment_nums'],
+                  self['tags'], self['content'])
+        return insert_sql, params
+
 
 class ZhihuQuestionItem(scrapy.Item):
     # 知乎的问题item
@@ -101,6 +112,19 @@ class ZhihuQuestionItem(scrapy.Item):
     watch_user_num = scrapy.Field()
     click_num = scrapy.Field()
     crawl_time = scrapy.Field()
+
+    def get_insert_sql(self):
+        insert_sql = """
+            insert into zhihu_question(zhihu_id, topics, url, title, content, create_time, update_time, answer_num, 
+            comments_nums, watch_user_num, click_num, crawl_time, crawl_update_time)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        zhihu_id = int(self['zhihu_id'][0])
+        topics = ','.join(self['topics'])
+        url = self['url'][0]
+        title = self['title'][0]
+        content = self['content']
+        answer_num = self
 
 
 class ZhihuAnswerItem(scrapy.Item):
