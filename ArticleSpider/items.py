@@ -139,3 +139,22 @@ class ZhihuAnswerItem(scrapy.Item):
     create_time = scrapy.Field()
     update_time = scrapy.Field()
     crawl_time = scrapy.Field()
+
+
+class DouBanMovieTop250(scrapy.Item):
+    # 豆瓣电影top250item
+    title = scrapy.Field()
+    front_img_url = scrapy.Field()
+    director = scrapy.Field()
+    screenwriter = scrapy.Field()
+    starring = scrapy.Field()
+    type = scrapy.Field()
+    country = scrapy.Field()
+    language = scrapy.Field()
+    release_date = scrapy.Field()
+    score = scrapy.Field()
+    comment_num = scrapy.Field()
+    ranking = scrapy.Field()
+    description = scrapy.Field()
+    is_watch = scrapy.Field()
+    watch_path = scrapy.Field()
