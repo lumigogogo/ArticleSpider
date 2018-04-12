@@ -134,8 +134,8 @@ class ZhihuSpider(scrapy.Spider):
         browser = webdriver.Firefox(executable_path='/home/lumi/Downloads/geckodriver')
 
         browser.get('https:/www.zhihu.com/signin')
-        browser.find_element_by_css_selector('.SignFlow-accountInput.Input-wrapper input').send_keys('18817314957')
-        browser.find_element_by_css_selector(".SignFlow-password input").send_keys('MCC0420')
+        browser.find_element_by_css_selector('.SignFlow-accountInput.Input-wrapper input').send_keys('phone_number')
+        browser.find_element_by_css_selector(".SignFlow-password input").send_keys('password')
         browser.find_element_by_css_selector(".Button.SignFlow-submitButton").click()
         import time
         time.sleep(10)
